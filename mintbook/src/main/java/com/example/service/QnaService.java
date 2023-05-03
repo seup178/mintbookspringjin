@@ -3,6 +3,8 @@ package com.example.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.domain.Member;
@@ -42,6 +44,22 @@ public class QnaService {
 	public Qna findById(int id) {
 		
 		return qnaRepository.findById(id).get();
+	}
+
+
+
+
+	public void delete(int id) {
+		qnaRepository.deleteById(id);
+		
+	}
+
+
+
+
+	public Page<Qna> findAll(PageRequest pageRequest) {
+
+		return qnaRepository.findAll(pageRequest);
 	}
 
 }

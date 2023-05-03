@@ -42,6 +42,15 @@ public class Qna {
 		this.reply = reply;
 		
 	}
+
+	
+	public void updateTitleContent(String qnaTitle, String content) {
+		this.qnaTitle = qnaTitle;
+		this.content = content;
+		
+	}
+
+
 	
 	
 }
