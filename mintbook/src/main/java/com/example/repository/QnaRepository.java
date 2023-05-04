@@ -11,4 +11,6 @@ public interface QnaRepository extends JpaRepository<Qna, Integer> {
 
 	List<Qna> findByWriter(Member findWriter);
 
+	List<Qna> findByWriterIn(List<Member> searchEmail);
+
 }

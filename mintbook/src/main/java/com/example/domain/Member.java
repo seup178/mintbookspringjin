@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -84,8 +85,8 @@ public class Member implements UserDetails {
     @Builder.Default
     private List<String> roles = new ArrayList<>();//권한(ADMIN, USER)
     
-    @JsonManagedReference
-    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY )
+    @JsonManagedReference									// 관지자 관련 삭제
+    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY,cascade = CascadeType.ALL )
     List<Qna> qnas;
     
  

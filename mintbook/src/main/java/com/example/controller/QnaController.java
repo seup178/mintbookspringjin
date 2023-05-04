@@ -185,50 +185,63 @@ public class QnaController {
 		return new ResponseEntity<>(count, HttpStatus.OK);
 	}
 	
-//	// 유저 검색
-//	@GetMapping("/api/qna/usersearch")
-//	public ResponseEntity getQnaSearch() {
-//		
-//		String email = SecurityUtil.getCurrentEmail();
-//		Member findWriter = new Member();
-//		findWriter =memberService.findByEmail(email);
-//		
-//		List<String> auth = findWriter.getRoles();
-//		
-//		boolean authok=false;
-//		for(String rdata :auth) {
-//			if(rdata.equals("ADMIN")) {
-//				authok = true;
-//			}
-//		}
-//		
-//		
-//		
-//		List<Qna> qnas;
-//		List<QnaResponseDTO> qnaresp= new ArrayList<>();
-//		
-//		for(Qna data:qnas) {
-//			QnaResponseDTO response = new QnaResponseDTO();
-//			response.setId(data.getId());
-//			response.setQnaTitle(data.getQnaTitle());
-//			response.setContent(data.getContent());
-//			response.setReg_date(data.getReg_date());
-//			response.setReply(data.getReply());
-//	
-//			if(data.getWriter() != null) {
-//				response.setWriter(data.getWriter().getEmail());	
-//			}else {
-//				response.setWriter(null);
-//			}
-//			
-//			qnaresp.add(response);
-//			
-//		}
-//		
-//		return new ResponseEntity<>(qnaresp, HttpStatus.OK);
-//		
-//		
-//	}
+	//유저 검색
+	@GetMapping("/api/qna/usersearch")
+	public ResponseEntity getQnaSearch(@RequestParam("search")String search) {
+		
+		String email = SecurityUtil.getCurrentEmail();
+		Member findWriter = new Member();
+		findWriter =memberService.findByEmail(email);
+		
+		List<String> auth = findWriter.getRoles();
+		
+		boolean authok=false;
+		for(String rdata :auth) {
+			if(rdata.equals("ADMIN")) {
+				authok = true;
+			}
+		}
+		
+		//검색
+		
+		List<Qna> searchList = new ArrayList<>();
+		//Member findmember = memberService.findByEmail(search);
+		List<Member> findmembers = memberService.findByEmailLike("%"+search+"%");
+		
+		List<Member> searchEmail =new ArrayList<>();
+		for(Member m:findmembers) {
+			
+			searchEmail.add(m);
+		}
+		searchList = qnaService.findByWriterIn(searchEmail);
+				
+	
+		
+		List<Qna> qnas=searchList;
+		List<QnaResponseDTO> qnaresp= new ArrayList<>();
+		
+		for(Qna data:qnas) {
+			QnaResponseDTO response = new QnaResponseDTO();
+			response.setId(data.getId());
+			response.setQnaTitle(data.getQnaTitle());
+			response.setContent(data.getContent());
+			response.setReg_date(data.getReg_date());
+			response.setReply(data.getReply());
+	
+			if(data.getWriter() != null) {
+				response.setWriter(data.getWriter().getEmail());	
+			}else {
+				response.setWriter(null);
+			}
+			
+			qnaresp.add(response);
+			
+		}
+		
+		return new ResponseEntity<>(qnaresp, HttpStatus.OK);
+		
+		
+	}
 		
 	//admin 상세
 	@GetMapping("/api/mypage/inquire/detailadmin")

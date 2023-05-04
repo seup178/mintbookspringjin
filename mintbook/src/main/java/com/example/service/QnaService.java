@@ -62,4 +62,14 @@ public class QnaService {
 		return qnaRepository.findAll(pageRequest);
 	}
 
+
+
+
+
+	public List<Qna> findByWriterIn(List<Member> searchEmail) {
+		
+		return qnaRepository.findByWriterIn(searchEmail);
+	}
+
+
 }

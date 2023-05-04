@@ -201,4 +201,9 @@ public class MemberService {
 			return true;
 		}
 	}
+
+	public List<Member> findByEmailLike(String string) {
+		
+		return memberRepository.findByEmailLike(string);
+	}
 }

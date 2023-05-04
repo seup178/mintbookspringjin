@@ -1,5 +1,6 @@
 package com.example.repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,4 +16,6 @@ public interface MemberRepository extends JpaRepository<Member, Integer> {
 
 	//회원가입시 중복체크(가입된 이메일 수)
 	int countByEmail(String email);
+
+	List<Member> findByEmailLike(String string);
 }
