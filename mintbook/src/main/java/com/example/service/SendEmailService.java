@@ -19,6 +19,7 @@ public class SendEmailService {
 	
 	@Autowired private PasswordEncoder passwordEncoder;
 	
+	//메일생성및 패스워드 변경
 	public Mail createMailAndChangePassword(String userEmail) {
 		//임시패스워드 생성
 		String str = getTempPassword();
@@ -35,6 +36,7 @@ public class SendEmailService {
 		return mail;
 	}
 	
+	//패스워드 업데이트
 	private void updatePassword(String str, String userEmail) {
 		String pw = passwordEncoder.encode(str);
 		
@@ -61,6 +63,7 @@ public class SendEmailService {
 		return str;
 	}
 	
+	//1개 메일전송
 	public void mailSend(Mail mail) {
 		System.out.println("이메일 전송 완료");
 		SimpleMailMessage message = new SimpleMailMessage();
@@ -70,5 +73,28 @@ public class SendEmailService {
 		
 		mailSender.send(message);
 	}
+	
+	//alimi용 메일 생성
+	public Mail createAlimiMail(String alimiWriterEmail, String bookName) {
+		
+		//송신할 메일정보 설정
+		Mail mail = new Mail();
+		mail.setAddress(alimiWriterEmail);
+		mail.setTitle("MintBook 도서입고 안내");
+		mail.setMessage("안녕하세요! MintBook 도서입고 안내 메일입니다.\n"
+		+ bookName + "도서가 입고되었습니다.");
+		
+		return mail;
+	}
 
+	//여러개 메일 전송
+	public void alimiMailSend(Mail mail) {
+		System.out.println("이메일 전송 완료");
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(mail.getAddress());
+		message.setSubject(mail.getTitle());
+		message.setText(mail.getMessage());
+		
+		mailSender.send(message);
+	}
 }

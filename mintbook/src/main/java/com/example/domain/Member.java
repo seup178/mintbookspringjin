@@ -11,8 +11,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -28,8 +30,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data@Builder
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -84,12 +89,31 @@ public class Member implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER) 
     @Builder.Default
     private List<String> roles = new ArrayList<>();//권한(ADMIN, USER)
-    
-    @JsonManagedReference									// 관지자 관련 삭제
-    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY,cascade = CascadeType.ALL )
-    List<Qna> qnas;
-    
  
+    @JsonIgnore
+	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Review> reviews = new ArrayList<>();
+	
+    @JsonIgnore
+	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Wishlist> wishlists = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Cart> carts = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Order> orders = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Point> points = new ArrayList<>();
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "writer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<Qna> qnas=new ArrayList<>();
+    
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles.stream()
