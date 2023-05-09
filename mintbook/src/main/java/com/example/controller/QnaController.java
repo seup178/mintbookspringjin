@@ -39,11 +39,16 @@ public class QnaController {
 	//c
 	@PostMapping("/api/qna/add")
 	public ResponseEntity addQna(@RequestBody QnaDTO dto) {
+		
+		String email = SecurityUtil.getCurrentEmail();
+		Member findWriter = new Member();
+		findWriter =memberService.findByEmail(email);
+		
 		Qna newQna = new Qna();
 		newQna.setQnaTitle(dto.getQnaTitle());
 		newQna.setContent(dto.getContent());
 		
-		String email = SecurityUtil.getCurrentEmail();
+		// String email = SecurityUtil.getCurrentEmail();
 		newQna.setWriter(memberService.findByEmail(email));
 		
 		Qna result =  qnaService.save(newQna);

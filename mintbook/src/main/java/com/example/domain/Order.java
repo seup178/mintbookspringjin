@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +26,41 @@ import lombok.Data;
 @Entity
 @Table(name = "orders")
 public class Order {
+//	@Id
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	private Integer id;
+//	
+//	//private Integer quantity;
+//	
+//	private Integer price;
+//	
+//	@Column(length = 255)
+//	private String buyer;
+//	
+//	@Column(length = 255)
+//	private String buyerEmail;
+//	
+//	@Column(length = 255)
+//	private String buyerAddress;
+//	
+//	private String status;
+//	
+//	@Column(length = 50)
+//	private String orderNum;
+//	
+//	private LocalDateTime orderDate;
+	
+	
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	//private Integer quantity;
+	@Column(length = 255)
+	private String product;
+	
+	private Integer quantity;
 	
 	private Integer price;
 	
@@ -40,16 +71,19 @@ public class Order {
 	private String buyerEmail;
 	
 	@Column(length = 255)
-	private String buyerAddress;
+	private String buyerAdress;
 	
+	@Column(length = 100)
 	private String status;
 	
 	@Column(length = 50)
 	private String orderNum;
 	
-	private LocalDateTime orderDate;
+	private LocalDate orderDate=LocalDate.now();
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	
+	
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonManagedReference(value="member-orders")
 	@JoinColumn(name = "member_id")
 	@JsonIgnore
