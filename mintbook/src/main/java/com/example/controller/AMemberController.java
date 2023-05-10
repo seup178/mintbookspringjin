@@ -15,12 +15,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.DTO.AMemberResponseDTO;
+import com.example.DTO.MemberOrderDTO;
 import com.example.DTO.QnaResponseDTO;
 import com.example.domain.Member;
+import com.example.domain.Order;
 import com.example.domain.Qna;
 import com.example.security.SecurityUtil;
 import com.example.service.AMemberService;
 import com.example.service.MemberService;
+import com.example.service.MypageService;
 
 import jakarta.transaction.Transactional;
 
@@ -31,6 +34,8 @@ public class AMemberController {
 	private AMemberService aMemberService;
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private MypageService mypageService;
 	
 	@GetMapping("/api/member/all")
 	public ResponseEntity getAllMember(@RequestParam("page") int page) {
@@ -145,10 +150,20 @@ public class AMemberController {
 
 	//상세 페이지 
 	@GetMapping("/api/member/detail")
-	public ResponseEntity getMemberDetail(@RequestParam("no")int no) {
+	public ResponseEntity getMemberDetail(@RequestParam("no")int no,@RequestParam("email")String email) {
+		
+		MemberOrderDTO morderDTO = new MemberOrderDTO();
+		
 		Member member = aMemberService.findById(no);
 		
-		return new ResponseEntity<>(member,HttpStatus.OK);
+		morderDTO.setMember(member);
+		
+		
+		List<Order>  orders = mypageService.findByMember(member);
+		
+		morderDTO.setOrders(orders);
+		
+		return new ResponseEntity<>(morderDTO,HttpStatus.OK);
 		
 	}
 	

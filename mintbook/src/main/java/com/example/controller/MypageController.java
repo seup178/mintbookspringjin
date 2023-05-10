@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,10 +53,39 @@ public class MypageController {
 		
 //		orderMemberDto.setOrder(order);
 //		orderMemberDto.setMember(member);
+	
+		
+		// buyer; buyerAddress;   buyerEmail;   buyerPhone;   orderNum;  orderDate;  status;
+		
+		
 		
 		Member member = order.getMember();
 		
-		orderDto.setMemberaddress(member.getAddress());
+		Order myorder = order;
+		
+		List<Order> orders = mypageService.findByMember(member);
+		
+	
+		
+		
+		orderDto.setOrders(orders);
+		
+		
+		// orderDto.setMemberaddress(member.getAddress());
+		
+		orderDto.setBuyer(myorder.getBuyer());
+		orderDto.setCartId(myorder.getCartId());
+		orderDto.setBuyerAddress(myorder.getBuyerAdress());
+		orderDto.setBuyerEmail(myorder.getBuyerEmail());
+		//orderDto.setBuyer(myorder.buyer); 전화번호
+		orderDto.setOrderNum(myorder.getOrderNum());
+		orderDto.setOrderDate(myorder.getOrderDate());
+		orderDto.setStatus(myorder.getStatus());
+		orderDto.setPrice(myorder.getPrice());
+		
+		
+		
+	
 		
 		
 		return new ResponseEntity<>(orderDto,HttpStatus.OK);

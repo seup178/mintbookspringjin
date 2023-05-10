@@ -31,10 +31,6 @@ public class MypageService {
 		return memberRepository.findById(id).get();
 	}
 
-	
-
-
-	
 
 
 }

@@ -58,7 +58,7 @@ public class Order {
 	private Integer id;
 	
 	@Column(length = 255)
-	private String product;
+	private String cartId;
 	
 	private Integer quantity;
 	
