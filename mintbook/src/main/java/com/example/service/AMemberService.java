@@ -8,13 +8,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.domain.Member;
+import com.example.domain.Order;
 import com.example.repository.AmemberRepository;
+import com.example.repository.OrderRepository;
 
 @Service
 public class AMemberService {
 
 	@Autowired
 	private AmemberRepository amemberRepository;
+	
+	@Autowired
+	private OrderRepository orderRepository;
 
 	public List<Member> findAll() {
 		
@@ -34,4 +39,5 @@ public class AMemberService {
 	public void delete(int id) {
 		amemberRepository.deleteById(id);
 	}
+
 }

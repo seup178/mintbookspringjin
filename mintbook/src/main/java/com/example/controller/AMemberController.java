@@ -149,7 +149,7 @@ public class AMemberController {
 	
 
 	//상세 페이지 
-	@GetMapping("/api/member/detail")
+	@GetMapping("/api/member/detail")                                                    
 	public ResponseEntity getMemberDetail(@RequestParam("no")int no,@RequestParam("email")String email) {
 		
 		MemberOrderDTO morderDTO = new MemberOrderDTO();
@@ -160,8 +160,10 @@ public class AMemberController {
 		
 		
 		List<Order>  orders = mypageService.findByMember(member);
-		
+
 		morderDTO.setOrders(orders);
+		
+		//morderDTO.setOrders(members);
 		
 		return new ResponseEntity<>(morderDTO,HttpStatus.OK);
 		

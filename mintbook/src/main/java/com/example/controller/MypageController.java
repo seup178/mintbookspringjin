@@ -44,12 +44,14 @@ public class MypageController {
 	
 	//oder 상세
 	@GetMapping("/api/mypage/read/detail")
-	public ResponseEntity getMypageDetail(@RequestParam("no")int no,@RequestParam("id")int id) {
+	public ResponseEntity getMypageDetail(@RequestParam("no")int no,@RequestParam("id")int id, @RequestParam("num")String num){
 		
 		OrderDTO orderDto = new OrderDTO(); 
 		
 		Order order = mypageService.findById(no); 
 		
+		List<Order> orderss = mypageService.findByOrderNum(num);
+	
 		
 //		orderMemberDto.setOrder(order);
 //		orderMemberDto.setMember(member);
@@ -61,12 +63,13 @@ public class MypageController {
 		
 		Member member = order.getMember();
 		
+		
 		Order myorder = order;
 		
 		List<Order> orders = mypageService.findByMember(member);
 		
 	
-		
+		orderDto.setOrderss(orderss);
 		
 		orderDto.setOrders(orders);
 		

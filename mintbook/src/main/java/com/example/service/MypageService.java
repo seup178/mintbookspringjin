@@ -31,6 +31,18 @@ public class MypageService {
 		return memberRepository.findById(id).get();
 	}
 
+	public List<Order> findByOrderNum(String num) {
+		
+		return orderRepository.findByOrderNum(num);
+	}
+
+	public List<Order> findByMemberId(String num) {
+		
+		return orderRepository.findByMemberId(num);
+	}
+
+	
+
 
 
 }
