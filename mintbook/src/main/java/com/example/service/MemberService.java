@@ -206,4 +206,8 @@ public class MemberService {
 		
 		return memberRepository.findByEmailLike(string);
 	}
+	
+	public Member findbyid(Integer id) {
+		return memberRepository.findById(id).get();
+	}
 }

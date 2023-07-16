@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +20,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.DTO.BookDto;
+import com.example.DTO.BooklistResponseDTO;
+import com.example.DTO.EditorResponseDTO;
 import com.example.domain.Alimi;
 import com.example.domain.Book;
 import com.example.domain.Mail;
+import com.example.repository.BookRepository;
+import com.example.repository.EditorpickRepository;
 import com.example.service.AlimiService;
 import com.example.service.BookService;
 import com.example.service.SendEmailService;
+
+
+import org.springframework.data.domain.Sort;
+import org.springframework.ui.Model;
 
 @RestController
 @RequestMapping("/api")
@@ -35,6 +44,12 @@ public class BookController {
 	@Autowired SendEmailService sendEmailService;
 	
 	@Autowired AlimiService alimiService;
+	
+	@Autowired
+	private BookRepository bookRepository;
+	
+	@Autowired
+	private EditorpickRepository editorpickRepository;
 	
 	//도서 등록
 	@PostMapping("/book")
@@ -161,4 +176,59 @@ public class BookController {
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
+	
+	
+	//메인페이지----------------------------------------------------------------------------------------------//
+	
+		//베스트셀러 목록(Read)
+		@GetMapping("/get/bestseller")
+		public Page<BooklistResponseDTO> bestseller(@PageableDefault(size=10, 
+																	 sort = "hit", 
+																	 direction = Sort.Direction.DESC) 
+																	 Pageable pageable){
+			Page<BooklistResponseDTO> map = bookRepository.findAll(pageable).map(BooklistResponseDTO::new);
+			return map;
+		}
+		
+		
+		//신간 목록top5(Read)
+		@GetMapping("/get/main/new")
+		public Page<BooklistResponseDTO> mainNew(@PageableDefault(size=5, 
+																	 sort = "regDate", 
+																	 direction = Sort.Direction.DESC) 
+																	 Pageable pageable){
+			Page<BooklistResponseDTO> map = bookRepository.findAll(pageable).map(BooklistResponseDTO::new);
+			return map;
+		}
+		
+		//에디터's Pick(메인페이지 top5)
+		@GetMapping("/get/main/editor")
+		public Page<EditorResponseDTO> mainEditor(@PageableDefault(size=5, 
+																	 sort = "regDate", 
+																	 direction = Sort.Direction.DESC) 
+																	 Pageable pageable){
+			Page<EditorResponseDTO> map = editorpickRepository.findAll(pageable).map(EditorResponseDTO::new);
+			return map;
+		}
+		//검색 페이지---------------------------------------------------------------------------------------------//
+		@GetMapping("/get/search")
+		public ResponseEntity getSearch(Model model, 
+										@PageableDefault(size=10, sort="hit", direction = Sort.Direction.DESC)
+										Pageable pageable,
+										@RequestParam(defaultValue = "") String searchTerm) {
+			Page<Book> bookList = bookRepository.findByBookNameContainingOrAuthorContaining(searchTerm, searchTerm, pageable);
+			Page<BooklistResponseDTO> searchDto = new BooklistResponseDTO().searchtoDto(bookList);
+			return new ResponseEntity<>(searchDto, HttpStatus.OK);
+		}
+		
+		//책 상세 페이지---------------------------------------------------------------------------------------------//
+		
+		//책 한권 정보
+		@GetMapping("/get/book")
+		public ResponseEntity bookDetail(@RequestParam("id") int id) {
+			Book book = bookService.findById(id);
+			
+			return new ResponseEntity<>(book, HttpStatus.OK);
+		}
 }

@@ -1,9 +1,12 @@
 package com.example.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.example.DTO.BooklistResponseDTO;
 import com.example.domain.Book;
 
 public interface BookRepository extends JpaRepository<Book, Integer> {
@@ -24,5 +27,11 @@ public interface BookRepository extends JpaRepository<Book, Integer> {
 	Page<Book> findAllByOrderByHitDesc(Pageable pageable);
 
 	Book findById(Integer[] bookid);
+	
+	//검색결과페이지(혹시 오류나면 Bookname으로 고쳐보기)
+	Page<Book> findByBookNameContainingOrAuthorContaining(String bookName, String author, Pageable pageable);
+	
+	List<Book> findAllByIdIn(List<Integer> lists);
+
 
 }

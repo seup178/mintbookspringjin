@@ -52,4 +52,8 @@ public class NoticeService {
 	public List<Notice> findByTitleContains(String subject) {
 		return noticeRepository.findByTitleContains(subject);
 	}
+	
+	public Notice findTop1ByOrderByIdDesc() {
+		return noticeRepository.findTop1ByOrderByIdDesc();
+	}
 }

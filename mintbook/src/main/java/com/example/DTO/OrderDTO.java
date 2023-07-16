@@ -35,7 +35,13 @@ public class OrderDTO {
 	
 	private int price;
 	
+	private String payMethod;
+	
+	private int totalprice;
+	
 	private List<Order> orders;
 	
 	private List<Order> orderss;
+	
+	private List<BooksCountsDTO> booksWCount;
 }

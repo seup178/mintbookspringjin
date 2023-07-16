@@ -81,6 +81,12 @@ public class Order {
 	
 	private LocalDate orderDate=LocalDate.now();
 	
+	private String payMethod;
+	
+	private String pg;
+	
+	private int totalPrice;
+	
 	
 	
 	@ManyToOne(fetch = FetchType.EAGER)

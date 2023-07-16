@@ -32,4 +32,12 @@ public class CartItem {
 	@JsonBackReference
 	@JoinColumn(name = "cart_id")
 	private Cart cart;
+	
+	private int count;
+	
+	//장바구니 추가---------------------------
+	public void addCount(int count) {
+		this.count += count;
+	}
+		
 }

@@ -1,5 +1,7 @@
 package com.example.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,6 +51,10 @@ public class BookService {
 
 	public Book findById(Integer[] bookid) {
 		return bookRepository.findById(bookid);
+	}
+	
+	public List<Book> findAllByIdIn(List<Integer> selectedids) {
+		return bookRepository.findAllByIdIn(selectedids);
 	}
 
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.domain.Cart;
 import com.example.domain.CartItem;
+import com.example.domain.Member;
 import com.example.repository.CartItemRepository;
 import com.example.repository.CartRepository;
 
@@ -27,6 +28,10 @@ public class CartService {
 	//카트저장
 	public void save(Cart newcart) {
 		cartItemRepository.save(newcart);
+	}
+	
+	public Cart findByMemberid(Member member) {
+		return cartRepository.findByMemberId(member);
 	}
 
 	

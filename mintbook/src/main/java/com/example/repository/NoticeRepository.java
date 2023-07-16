@@ -9,5 +9,5 @@ import com.example.domain.Notice;
 public interface NoticeRepository extends JpaRepository<Notice, Integer> {
 
 	List<Notice> findByTitleContains(String subject);
-
+	Notice findTop1ByOrderByIdDesc();
 }

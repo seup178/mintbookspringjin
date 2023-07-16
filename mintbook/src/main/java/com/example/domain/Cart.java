@@ -36,4 +36,14 @@ public class Cart {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "cart", fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
 	private List<CartItem> cartitems=new ArrayList<>();
+	
+	
+	public static Cart createCart(Member memberid) {
+		Cart cart = new Cart();
+		cart.setMember(memberid);
+		return cart;
+	}
+	
+	
+	private int count; //카트에 담긴 총 상품 개수
 }

@@ -61,6 +61,9 @@ public class Book {
 	
 	private String authorInfo; //작가정보
 	
+	@Column(length = 4000)
+	private String bookInfo;
+	
 	private LocalDate publishDate; //출판일
 	
 	private String bookImg; //책 표지 URL

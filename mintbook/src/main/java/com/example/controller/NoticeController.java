@@ -89,4 +89,22 @@ public class NoticeController {
 		
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
+	
+	
+	
+	//메인 공지
+	@GetMapping("/get/main")
+	public ResponseEntity mainNotice() {
+			
+		Notice notice = noticeService.findTop1ByOrderByIdDesc();
+			
+		return new ResponseEntity<>(notice, HttpStatus.OK);
+	}
 }
+
+
+
+
+
+
+
